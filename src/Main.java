@@ -63,7 +63,7 @@ public class Main {
     }
 
     public static void findMinimumSalary() {
-        double min = Integer.MAX_VALUE;
+        double min = employees[0].getSalary();
         for (int i = 0; i < employees.length; i++) {
             if (min > employees[i].getSalary())
                 min = employees[i].getSalary();
@@ -72,7 +72,7 @@ public class Main {
     }
 
     public static void findMaximumSalary() {
-        double min = Integer.MIN_VALUE;
+        double min = employees[0].getSalary();
         for (int i = 0; i < employees.length; i++) {
             if (min < employees[i].getSalary())
                 min = employees[i].getSalary();
@@ -100,42 +100,45 @@ public class Main {
         }
     }
 
-    public static void findMinSalaryInDepartment(int department){
-        if (department < 0) {
-            throw new IllegalArgumentException();
-        }
-        double min = Integer.MAX_VALUE;
+    public static Employee findMinSalaryInDepartment(int department){
+        checkDepartment(department);
+
+        Employee min = employees[0];
         for (int i = 0; i < employees.length; i++) {
             if (employees[i].getDepartment() == department)
             {
-                if (min > employees[i].getSalary()) {
-                    min = employees[i].getSalary();
+                if (employees[i].getSalary() < min.getSalary()) {
+                    min = employees[i];
                 }
             }
         }
-        System.out.println(min);
+        return min;
     }
 
-    public static void findMaxSalaryInDepartment(int department){
+    private static void checkDepartment(int department) {
         if (department < 0) {
             throw new IllegalArgumentException();
         }
-        double min = Integer.MIN_VALUE;
+    }
+
+    public static Employee findMaxSalaryInDepartment(int department){
+        checkDepartment(department);
+
+        Employee max = employees[0];
         for (int i = 0; i < employees.length; i++) {
             if (employees[i].getDepartment() == department)
             {
-                if (min < employees[i].getSalary()) {
-                    min = employees[i].getSalary();
+                if (employees[i].getSalary() > max.getSalary()) {
+                    max = employees[i];
                 }
             }
         }
-        System.out.println(min);
+        return max;
     }
 
-    public static void findMeanInDepartment(int department) {
-        if (department < 0) {
-            throw new IllegalArgumentException();
-        }
+    public static double findMeanInDepartment(int department) {
+        checkDepartment(department);
+
         double totalAmount = 0;
         int j = 0;
         for (int i = 0; i < employees.length; i++) {
@@ -144,13 +147,12 @@ public class Main {
                 totalAmount += employees[i].getSalary();
             }
         }
-        System.out.println(totalAmount/j);
+        return (totalAmount/j);
     }
 
     public static void indexInDepartment(int department, double percent) {
-        if (department < 0) {
-            throw new IllegalArgumentException();
-        }
+        checkDepartment(department);
+
         for (int i = 0; i < employees.length; i++) {
             if (employees[i].getDepartment() == department) {
                 employees[i].setSalary(employees[i].getSalary() * (percent / 100));
@@ -159,9 +161,8 @@ public class Main {
     }
 
     public static void printAllInDepartment(int department) {
-        if (department < 0) {
-            throw new IllegalArgumentException();
-        }
+        checkDepartment(department);
+
         for (int i = 0; i < employees.length; i++) {
             if (employees[i].getDepartment() == department) {
                 System.out.println(employees[i]);
